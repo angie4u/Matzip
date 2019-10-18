@@ -1,3 +1,11 @@
+//reads .env file and sets the environment variables -- database string
+const dotenv = require('dotenv');
+dotenv.config();
+
+
+
+
+
 module.exports = async function (context, req) {
     context.log('JavaScript HTTP trigger function processed a request.');
 
