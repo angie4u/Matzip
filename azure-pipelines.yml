@@ -18,9 +18,6 @@ steps:
 - script: |
     cd API
     ls
-  displayName: 'check directory'
-
-- script: |
     npm install
     npm start
   displayName: 'npm install and build'
