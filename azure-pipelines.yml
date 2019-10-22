@@ -17,10 +17,11 @@ steps:
 
 - script: |
     ls
-  displayName: 'show directory'
+    cd API
+    ls
+  displayName: 'check directory'
 
 - script: |
-    cd /API
     npm install
     node index.js
   displayName: 'npm install and build'
