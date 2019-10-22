@@ -22,5 +22,5 @@ steps:
 
 - script: |
     npm install
-    node index.js
+    npm start
   displayName: 'npm install and build'
