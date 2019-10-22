@@ -16,7 +16,6 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
-    ls
     cd API
     ls
   displayName: 'check directory'
