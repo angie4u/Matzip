@@ -16,6 +16,10 @@ steps:
   displayName: 'Install Node.js'
 
 - script: |
+    ls
+  displayName: 'show directory'
+
+- script: |
     cd /API
     npm install
     node index.js
