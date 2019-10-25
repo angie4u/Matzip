@@ -1,3 +1,4 @@
+
 node_modules
 
 bin
@@ -32,14 +33,32 @@ dist
 
 # Python Environments
 .env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+.env.test
 
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+
+# next.js build output
+.next
+
+# nuxt.js build output
+.nuxt
+
+# gatsby files
+.cache/
+public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
