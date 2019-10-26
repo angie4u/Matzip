@@ -1,48 +1,32 @@
 const express = require('express');
 const router = express.Router();
-// const mongoose = require('mongoose');
-const { venue } = require('../models/venues');
-const dbClient = require('../index');
+require('dotenv').config();
 
+const { CosmosClient } = require('@azure/cosmos');
+const dbClient = new CosmosClient(process.env.DB_CONNECTION_STRING);
+const databaseId = process.env.DB_NAME;
+const containerId = process.env.DB_CONTAINER
 //TODO :: Update the error status
 //TODO :: update other CRUD
 //TODO :: ADD VALIDATION
 
 
-async function getItem() {
-    const databaseId = { id: "matzip2" };
-    const containerId = { id: "venues" };
-    const itemBody = { "message": "Hello World" };
-
-    const { item } = await dbClient.database(databaseId.id).container(containerId.id).items.create(itemBody);
-    console.log("Created item with content: ", itemBody);
-
-
-    
+async function getVenues() {
     const querySpec = {
-        query: "SELECT * FROM Families f WHERE  f.lastName = @lastName",
-        parameters: [
-          {
-            name: "@lastName",
-            value: "Andersen"
-          }
-        ]
-      };
+      query: `SELECT v.id, v.name FROM ${containerId} v`
+    };
     
-      logStep("Query items in container '" + container.id + "'");
-      const { resources: results } = await container.items.query(querySpec).fetchAll();
+    const { resources: results } = await dbClient.database(databaseId).container(containerId).items.query(querySpec).fetchAll();
+    console.log(results);
+    return results
 }
 
-
-
-
 router.get('/', async (req, res) => {
-    // const venues = await Venue.find().sort('name');
-    helloCosmos().catch(err => {
+    let result = await getVenues().catch(err => {
         console.error(err);
     });
 
-    res.send(venues);
+    res.send(result);
 });
 
 router.get('/:id', async (req, res) => {
