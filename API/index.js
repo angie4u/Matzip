@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 
-const { CosmosClient } = require('@azure/cosmos');
 const venues = require('./routes/venues');
 
 app.use(express.json());

@@ -15,10 +15,16 @@ async function getVenues() {
     const querySpec = {
       query: `SELECT v.id, v.name FROM ${containerId} v`
     };
-    
     const { resources: results } = await dbClient.database(databaseId).container(containerId).items.query(querySpec).fetchAll();
-    console.log(results);
-    return results
+    return results;
+}
+
+async function getVenue(venueId){
+    const querySpec = {
+      query: `SELECT * FROM venues v WHERE v.id = "${venueId}"`
+    };
+    const { resources: results } = await dbClient.database(databaseId).container(containerId).items.query(querySpec).fetchAll();
+    return results;
 }
 
 router.get('/', async (req, res) => {
@@ -30,10 +36,8 @@ router.get('/', async (req, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    const venue = await Venue.findById(req.params.id);
-
+    let venue = await getVenue(req.params.id)
     if (!venue) return res.status(404).send('The venue with the given ID was not found.');
-
     res.send(venue);
 });
 
