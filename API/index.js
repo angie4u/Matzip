@@ -6,4 +6,7 @@ const venues = require('./routes/venues');
 app.use(express.json());
 app.use('/v1/venues', venues);
 
-app.listen(3000, () => console.log('Listening on port 3000...'));
+const port = parseInt(process.env.PORT || '3000', 10);
+app.set('port',port);
+
+app.listen(app.get('port'), function() { console.log(`Listening on port ${app.get('port')}`)});
