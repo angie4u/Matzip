@@ -27,19 +27,37 @@ async function getVenue(venueId){
     return results;
 }
 
+async function updateVenue(updatedInfo)
+{
+    let result = await dbClient.database(databaseId).container(containerId).items.upsert(updatedInfo);
+    return result.resource;
+}
+
+function isEmptyObject(obj) {
+    return !Object.keys(obj).length;
+}
+
 router.get('/', async (req, res) => {
     let result = await getVenues().catch(err => {
         console.error(err);
     });
-
     res.send(result);
 });
 
 router.get('/:id', async (req, res) => {
     let venue = await getVenue(req.params.id)
-    if (!venue) return res.status(404).send('The venue with the given ID was not found.');
+    if (!venue) 
+        return res.status(404).send('The venue with the given ID was not found.');
     res.send(venue);
 });
+
+router.put('/:id', async (req, res) => {
+    if(isEmptyObject(req.body))
+        return res.status(400).send('Bad request.');
+    let updatedInfo = await updateVenue(req.body)
+    res.send(updatedInfo);
+});
+
 
 router.post('/', async (req, res) => {
     //TODO:: VALIDATION
@@ -60,5 +78,6 @@ router.post('/', async (req, res) => {
     // res.send('venue');
     res.send({ 'messege': 'data created' });
 });
+
 
 module.exports = router;
