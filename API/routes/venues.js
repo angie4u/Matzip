@@ -10,7 +10,6 @@ const containerId = process.env.DB_CONTAINER
 //TODO :: update other CRUD
 //TODO :: ADD VALIDATION
 
-
 async function getVenues() {
     const querySpec = {
       query: `SELECT v.id, v.name FROM ${containerId} v`
@@ -31,6 +30,13 @@ async function updateVenue(updatedInfo)
 {
     let result = await dbClient.database(databaseId).container(containerId).items.upsert(updatedInfo);
     return result.resource;
+}
+
+async function deleteVenue(venueId)
+{
+    let item = await dbClient.database(databaseId).container(containerId).item(venueId,venueId);
+    let result = await item.delete();
+    return result;
 }
 
 function isEmptyObject(obj) {
@@ -58,25 +64,15 @@ router.put('/:id', async (req, res) => {
     res.send(updatedInfo);
 });
 
+// router.post('/', async (req, res) => {
+    
+//     res.send({ 'messege': 'data created' });
+// });
 
-router.post('/', async (req, res) => {
-    //TODO:: VALIDATION
-
-    // let venue = new Venue({
-    //     name: req.body.name,
-    //     rating: req.body.rating
-    // });    
-
-
-
-    // await database.delete();
-    // console.log("Deleted database");    
-
-
-    // venue = await venue.save();
-
-    // res.send('venue');
-    res.send({ 'messege': 'data created' });
+router.delete('/:id', async (req, res) => {
+    let result = await deleteVenue(req.params.id)
+    if(!result)
+        return res.send({ 'message': 'Venue info is successfully deleted.'})    
 });
 
 
